@@ -13,10 +13,10 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 sched = BlockingScheduler()
 
 def makeTweet(tweet):
-    apiKey = "8AEFNZ1HgrgFWoMgyVXtBl6Ra"
-    secretKey = "QlBVo0VlVYWoTxZn10jWla4Dg0tq2tOYZIxZko9aX1EDAc7vKE"
-    accessToken = "1240332676336410624-rEXprZ5ZJCnsnrYlQSxchYWXdvThxX"
-    tokenSecret = "fSjF6QuKqcD3gv3XNTD5ZELtvqGoMH7WepknMNjTYllDz"
+    apiKey = os.environ.get("TWITTER_API_KEY")
+    secretKey = os.environ.get("TWITTER_SECRET_KEY")
+    accessToken = os.environ.get("TWITTER_ACCESS_TOKEN")
+    tokenSecret = os.environ.get("TWITTER_TOKEN_SECRET")
     
     auth = tweepy.OAuthHandler(apiKey, secretKey)
     auth.set_access_token(accessToken, tokenSecret)
