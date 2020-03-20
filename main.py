@@ -26,30 +26,28 @@ def makeTweet(tweet):
     
 def makeApiRequest():
     print("Starting job")
-    posted = False
-    while (not posted):
-        response = requests.get("https://coronavirus-19-api.herokuapp.com/countries")
+    queriedApi = False
+    while (not queriedApi):
         try:
-            for object in json.loads(response.content):
-                if object['country'] == 'Sweden':
-                    header = "Corona Virus Cases in Sweden"
-                    data = "📅  Date = %s" % (date.today())
-                    hashtags = "#COVID19 #CoronaSverige #Coronavirus #CoronaSweden"
-                    tweet = " %s \n\n %s \n %s \n %s" % (header , data , formatTwitterEnglish(object), hashtags)
-                    postTweet(tweet)
-
-                    header = "Corona Virus Cases i Sverige"
-                    data = "📅 Datum = %s" % (date.today())
-                    hashtags = "#COVID19 #CoronaSverige #Coronavirus #CoronaSweden"
-                    tweet = " %s \n\n %s \n %s \n %s" % (header , data , formatTwitterSwedish(object), hashtags)
-                    postTweet(tweet)
-                    posted = True
-                    print("Finished job")
-                    print("Finished job")
+            response = requests.get("https://coronavirus-19-api.herokuapp.com/countries")
+            queriedApi = True
         except Exception as identifier:
             time.sleep(5)
             print(identifier)
-            posted = True
+
+    for body in json.loads(response.content):
+        if body['country'] == 'Sweden':
+            header = "Corona Virus Cases in Sweden"
+            data = "📅  Date = %s" % (date.today())
+            hashtags = "#COVID19 #CoronaSverige #Coronavirus #CoronaSweden"
+            tweet = " %s \n\n %s \n %s \n %s" % (header , data , formatTwitterEnglish(body), hashtags)
+            postTweet(tweet)
+
+            header = "Corona Virus Cases i Sverige"
+            data = "📅 Datum = %s" % (date.today())
+            tweet = " %s \n\n %s \n %s \n %s" % (header , data , formatTwitterSwedish(body), hashtags)
+            postTweet(tweet)
+            print("Finished job")
     
     
     
