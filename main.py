@@ -42,7 +42,7 @@ def makeApiRequest():
         if body['country'] == 'Sweden':
             header = "Corona Virus Cases in Sweden"
             data = "📅  Date = %s" % (date.today())
-            hashtags = "#COVID19 #CoronaSverige #Coronavirus #CoronaSweden"
+            hashtags = "#COVIDー19 #CoronaSverige #Coronavirus #CoronaSweden"
             tweet = " %s \n\n %s \n %s \n %s" % (header , data , formatTwitterEnglish(body), hashtags)
             postTweet(tweet)
 
