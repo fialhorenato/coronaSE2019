@@ -1,5 +1,2 @@
 requests
-selenium
-pyperclip
-APScheduler
 tweepy

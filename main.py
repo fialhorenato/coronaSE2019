@@ -51,9 +51,6 @@ def makeApiRequest():
             tweet = " %s \n\n %s \n %s \n %s" % (header , data , formatTwitterSwedish(body), hashtags)
             postTweet(tweet)
             print("Finished job")
-    
-    
-    
 
 def formatTwitterEnglish(object):
     confirmedCases = "🤒 Confirmed Cases = %s" % (object['cases'])
