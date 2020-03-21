@@ -21,8 +21,11 @@ def makeTweet(tweet):
     auth = tweepy.OAuthHandler(apiKey, secretKey)
     auth.set_access_token(accessToken, tokenSecret)
     api = tweepy.API(auth)
-
-    api.update_status(tweet)
+    try:
+        api.update_status(tweet)
+    except Exception as identifier:
+        print(identifier)
+    
     
 def makeApiRequest():
     print("Starting job")
