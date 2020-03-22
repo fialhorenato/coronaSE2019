@@ -8,10 +8,6 @@ import time
 import os
 import tweepy
 
-from apscheduler.schedulers.blocking import BlockingScheduler
-
-sched = BlockingScheduler()
-
 def makeTweet(tweet):
     apiKey = os.environ.get("TWITTER_API_KEY")
     secretKey = os.environ.get("TWITTER_SECRET_KEY")
