@@ -7,6 +7,7 @@ from datetime import date
 import time
 import os
 import tweepy
+from bs4 import BeautifulSoup
 
 def makeTweet(tweet):
     apiKey = os.environ.get("TWITTER_API_KEY")
@@ -21,8 +22,19 @@ def makeTweet(tweet):
         api.update_status(tweet)
     except Exception as identifier:
         print(identifier)
-    
-    
+
+def scrapPage():
+    response = requests.get("https://www.worldometers.info/coronavirus/")
+    soup = BeautifulSoup(response.content, 'html.parser')
+    table = soup.find(id="main_table_countries_today")
+    rows = table.find_all('tr')
+    for row in rows:
+        tds = row.find_all('td')
+        for td in tds:
+            if(td.text == "Sweden"):
+                parentTds = td.parent.find_all('td')
+                return {'country' : parentTds[0].text, 'cases' : parentTds[1].text, 'critical' : parentTds[7].text, 'deaths' :  parentTds[3].text, 'recovered' : parentTds[5].text}
+
 def makeApiRequest():
     print("Starting job")
     queriedApi = False
@@ -48,6 +60,22 @@ def makeApiRequest():
             postTweet(tweet)
             print("Finished job")
 
+def makeScrap():
+    print("Starting job")
+    myResponse = scrapPage()
+
+    header = "Corona Virus Cases in Sweden"
+    data = "📅  Date = %s" % (date.today())
+    hashtags = "#COVIDー19 #CoronaSverige #Coronavirus #CoronaSweden"
+    tweet = " %s \n\n %s \n %s \n %s" % (header , data , formatTwitterEnglish(myResponse), hashtags)
+    postTweet(tweet.replace(',', ''))
+
+    header = "Corona Virus Cases i Sverige"
+    data = "📅 Datum = %s" % (date.today())
+    tweet = " %s \n\n %s \n %s \n %s" % (header , data , formatTwitterSwedish(myResponse), hashtags)
+    postTweet(tweet.replace(',', ''))
+    print("Finished job")
+
 def formatTwitterEnglish(object):
     confirmedCases = "🤒 Confirmed Cases = %s" % (object['cases'])
     criticalCases = "😷 Critical Cases = %s" % (object['critical'])
@@ -65,4 +93,4 @@ def formatTwitterSwedish(object):
 def postTweet(tweet):
         makeTweet(tweet)
 
-makeApiRequest()
+makeScrap()
