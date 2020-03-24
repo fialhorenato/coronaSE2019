@@ -33,32 +33,13 @@ def scrapPage():
         for td in tds:
             if(td.text == "Sweden"):
                 parentTds = td.parent.find_all('td')
-                return {'country' : parentTds[0].text, 'cases' : parentTds[1].text, 'critical' : parentTds[7].text, 'deaths' :  parentTds[3].text, 'recovered' : parentTds[5].text}
-
-def makeApiRequest():
-    print("Starting job")
-    queriedApi = False
-    while (not queriedApi):
-        try:
-            response = requests.get("https://coronavirus-19-api.herokuapp.com/countries")
-            queriedApi = True
-        except Exception as identifier:
-            time.sleep(5)
-            print(identifier)
-
-    for body in json.loads(response.content):
-        if body['country'] == 'Sweden':
-            header = "Corona Virus Cases in Sweden"
-            data = "📅  Date = %s" % (date.today())
-            hashtags = "#COVIDー19 #CoronaSverige #Coronavirus #CoronaSweden"
-            tweet = " %s \n\n %s \n %s \n %s" % (header , data , formatTwitterEnglish(body), hashtags)
-            postTweet(tweet)
-
-            header = "Corona Virus Cases i Sverige"
-            data = "📅 Datum = %s" % (date.today())
-            tweet = " %s \n\n %s \n %s \n %s" % (header , data , formatTwitterSwedish(body), hashtags)
-            postTweet(tweet)
-            print("Finished job")
+                return {
+                'country' : parentTds[0].text, 
+                'cases' : parentTds[1].text, 
+                'critical' : parentTds[7].text, 
+                'deaths' :  parentTds[3].text, 
+                'recovered' : parentTds[5].text
+                }
 
 def makeScrap():
     print("Starting job")
@@ -66,7 +47,7 @@ def makeScrap():
 
     header = "Corona Virus Cases in Sweden"
     data = "📅  Date = %s" % (date.today())
-    hashtags = "#COVIDー19 #CoronaSverige #Coronavirus #CoronaSweden"
+    hashtags = "#COVIDー19 #CoronaSverige #Coronavirus #CoronaSweden #CoronaVirusSweden"
     tweet = " %s \n\n %s \n %s \n %s" % (header , data , formatTwitterEnglish(myResponse), hashtags)
     postTweet(tweet.replace(',', ''))
 
