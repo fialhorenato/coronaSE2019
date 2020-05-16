@@ -19,7 +19,8 @@ def makeTweet(tweet):
     auth.set_access_token(accessToken, tokenSecret)
     api = tweepy.API(auth)
     try:
-        api.update_status(tweet)
+        #api.update_status(tweet)
+        print(tweet)
     except Exception as identifier:
         print(identifier)
 
@@ -37,8 +38,8 @@ def scrapPage():
                 'country' : parentTds[0].text, 
                 'cases' : parentTds[1].text, 
                 'critical' : parentTds[7].text, 
-                'deaths' :  parentTds[3].text, 
-                'recovered' : parentTds[5].text
+                'deaths' :  parentTds[4].text,
+                'recovered' : parentTds[6].text
                 }
 
 def makeScrap():
