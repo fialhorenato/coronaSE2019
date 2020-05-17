@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-import requests
-import json
-from datetime import date
-import time
 import os
+from datetime import date
+
+import requests
 import tweepy
 from bs4 import BeautifulSoup
+
 
 def makeTweet(tweet):
     apiKey = os.environ.get("TWITTER_API_KEY")
@@ -19,8 +19,8 @@ def makeTweet(tweet):
     auth.set_access_token(accessToken, tokenSecret)
     api = tweepy.API(auth)
     try:
-        #api.update_status(tweet)
-        print(tweet)
+        api.update_status(tweet)
+        #print(tweet)
     except Exception as identifier:
         print(identifier)
 
