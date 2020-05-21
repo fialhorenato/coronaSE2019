@@ -35,8 +35,8 @@ def scrapPage():
             if(td.text == "Sweden"):
                 parentTds = td.parent.find_all('td')
                 return {
-                'country' : parentTds[0].text, 
-                'cases' : parentTds[1].text, 
+                'country' : parentTds[1].text,
+                'cases' : parentTds[2].text,
                 'critical' : parentTds[7].text, 
                 'deaths' :  parentTds[4].text,
                 'recovered' : parentTds[6].text
