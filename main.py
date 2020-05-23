@@ -37,8 +37,10 @@ def scrapPage():
                 return {
                 'country' : parentTds[1].text,
                 'cases' : parentTds[2].text,
-                'critical' : parentTds[7].text, 
+                'casesDiff': parentTds[3].text,
+                'critical' : parentTds[7].text,
                 'deaths' :  parentTds[4].text,
+                'deathsDiff': parentTds[5].text,
                 'recovered' : parentTds[6].text
                 }
 
@@ -59,16 +61,16 @@ def makeScrap():
     print("Finished job")
 
 def formatTwitterEnglish(object):
-    confirmedCases = "🤒 Confirmed Cases = %s" % (object['cases'])
+    confirmedCases = "🤒 Confirmed Cases = %s (%s)" % (object['cases'], object['casesDiff'])
     criticalCases = "😷 Critical Cases = %s" % (object['critical'])
-    deaths = "😢 Deaths = %s" % (object['deaths'])
+    deaths = "😢 Deaths = %s (%s)"  % (object['deaths'], object['deathsDiff'])
     recovered = "🥳 Recovered = %s" % (object['recovered'])
     return ('%s \n %s \n %s \n %s \n ' % (confirmedCases, criticalCases, deaths, recovered))
 
 def formatTwitterSwedish(object):
-    confirmedCases = "🤒 Bekräftade fall = %s" % (object['cases'])
+    confirmedCases = "🤒 Bekräftade fall = %s (%s)" % (object['cases'], object['casesDiff'])
     criticalCases = "😷 Kritiska fall = %s" % (object['critical'])
-    deaths = "😢 Dödsfall = %s" % (object['deaths'])
+    deaths = "😢 Dödsfall = %s (%s)" % (object['deaths'], object['deathsDiff'])
     recovered = "🥳 Krya på sig = %s" % (object['recovered'])
     return ('%s \n %s \n %s \n %s \n' % (confirmedCases, criticalCases, deaths, recovered))
 
