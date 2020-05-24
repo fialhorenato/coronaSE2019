@@ -50,7 +50,7 @@ def makeScrap():
 
     header = "Corona Virus Cases in Sweden"
     data = "📅  Date = %s" % (date.today())
-    hashtags = "#COVIDー19 #CoronaSverige #Coronavirus #CoronaSweden #CoronaVirusSweden"
+    hashtags = "#COVIDー19 #CoronaSverige #Coronavirus #CoronaSweden #CoronaVirusSweden #COVID19sverige"
     tweet = " %s \n\n %s \n %s \n %s" % (header , data , formatTwitterEnglish(myResponse), hashtags)
     postTweet(tweet.replace(',', ''))
 
