@@ -9,18 +9,17 @@ import tweepy
 from bs4 import BeautifulSoup
 
 
-def makeTweet(tweet):
-    apiKey = os.environ.get("TWITTER_API_KEY")
-    secretKey = os.environ.get("TWITTER_SECRET_KEY")
-    accessToken = os.environ.get("TWITTER_ACCESS_TOKEN")
-    tokenSecret = os.environ.get("TWITTER_TOKEN_SECRET")
+def make_tweet(tweet):
+    api_key = os.environ.get("TWITTER_API_KEY")
+    secret_key = os.environ.get("TWITTER_SECRET_KEY")
+    access_token = os.environ.get("TWITTER_ACCESS_TOKEN")
+    token_secret = os.environ.get("TWITTER_TOKEN_SECRET")
     
-    auth = tweepy.OAuthHandler(apiKey, secretKey)
-    auth.set_access_token(accessToken, tokenSecret)
+    auth = tweepy.OAuthHandler(api_key, secret_key)
+    auth.set_access_token(access_token, token_secret)
     api = tweepy.API(auth)
     try:
         api.update_status(tweet)
-        #print(tweet)
     except Exception as identifier:
         print(identifier)
 
@@ -32,7 +31,7 @@ def scrapPage():
     for row in rows:
         tds = row.find_all('td')
         for td in tds:
-            if(td.text == "Sweden"):
+            if td.text == "Sweden":
                 parentTds = td.parent.find_all('td')
                 return {
                 'country' : parentTds[1].text,
@@ -61,20 +60,21 @@ def makeScrap():
     print("Finished job")
 
 def formatTwitterEnglish(object):
-    confirmedCases = "🤒 Confirmed Cases = %s (%s)" % (object['cases'], object['casesDiff'])
-    criticalCases = "😷 Critical Cases = %s" % (object['critical'])
-    deaths = "😢 Deaths = %s (%s)"  % (object['deaths'], object['deathsDiff'])
-    recovered = "🥳 Recovered = %s" % (object['recovered'])
-    return ('%s \n %s \n %s \n %s \n ' % (confirmedCases, criticalCases, deaths, recovered))
+    confirmedCases = "🤒 Confirmed Cases = %s" % (object['cases'])
+    #criticalCases = "😷 Critical Cases = %s" % (object['critical'])
+    deaths = "😢 Deaths = %s"  % (object['deaths'])
+    #recovered = "🥳 Recovered = %s" % (object['recovered'])
+    return ('%s \n %s \n' % (confirmedCases, deaths))
 
 def formatTwitterSwedish(object):
-    confirmedCases = "🤒 Bekräftade fall = %s (%s)" % (object['cases'], object['casesDiff'])
-    criticalCases = "😷 Kritiska fall = %s" % (object['critical'])
-    deaths = "😢 Dödsfall = %s (%s)" % (object['deaths'], object['deathsDiff'])
-    recovered = "🥳 Krya på sig = %s" % (object['recovered'])
-    return ('%s \n %s \n %s \n %s \n' % (confirmedCases, criticalCases, deaths, recovered))
+    confirmedCases = "🤒 Bekräftade fall = %s" % (object['cases'])
+    #criticalCases = "😷 Kritiska fall = %s" % (object['critical'])
+    deaths = "😢 Dödsfall = %s" % (object['deaths'])
+    #recovered = "🥳 Krya på sig = %s" % (object['recovered'])
+    return ('%s \n %s \n' % (confirmedCases, deaths))
 
 def postTweet(tweet):
-        makeTweet(tweet)
+    print(tweet)
+    make_tweet(tweet)
 
 makeScrap()
