@@ -6,8 +6,6 @@ from datetime import date
 
 import requests
 import tweepy
-from bs4 import BeautifulSoup
-
 
 def make_tweet(tweet):
     api_key = os.environ.get("TWITTER_API_KEY")
@@ -23,40 +21,28 @@ def make_tweet(tweet):
     except Exception as identifier:
         print(identifier)
 
-def scrapPage():
-    response = requests.get("https://www.worldometers.info/coronavirus/")
-    soup = BeautifulSoup(response.content, 'html.parser')
-    table = soup.find(id="main_table_countries_today")
-    rows = table.find_all('tr')
-    for row in rows:
-        tds = row.find_all('td')
-        for td in tds:
-            if td.text == "Sweden":
-                parentTds = td.parent.find_all('td')
-                return {
-                'country' : parentTds[1].text,
-                'cases' : parentTds[2].text,
-                'casesDiff': parentTds[3].text,
-                'critical' : parentTds[7].text,
-                'deaths' :  parentTds[4].text,
-                'deathsDiff': parentTds[5].text,
-                'recovered' : parentTds[6].text
-                }
+def get_data():
+    response = requests.get("https://coronavirus-tracker-api.herokuapp.com/v2/locations/242?source=jhu&timelines=false").json()
+    latest = response['location']['latest']
+    return {
+        'cases' : str(latest['confirmed']),
+        'deaths' : str(latest['deaths'])
+    }
 
-def makeScrap():
+def create_tweet():
     print("Starting job")
-    myResponse = scrapPage()
+    myResponse = get_data()
 
     header = "Corona Virus Cases in Sweden"
-    data = "📅  Date = %s" % (date.today())
-    hashtags = "#COVIDー19 #CoronaSverige #Coronavirus #CoronaSweden #CoronaVirusSweden #COVID19sverige"
+    data = "📅 Date = %s" % (date.today())
+    hashtags = "#Sweden #Sverige #COVIDー19 #Coronavirus"
     tweet = " %s \n\n %s \n %s \n %s" % (header , data , formatTwitterEnglish(myResponse), hashtags)
-    postTweet(tweet.replace(',', ''))
+    post_tweet(tweet.replace(',', ''))
 
     header = "Corona Virus Cases i Sverige"
     data = "📅 Datum = %s" % (date.today())
     tweet = " %s \n\n %s \n %s \n %s" % (header , data , formatTwitterSwedish(myResponse), hashtags)
-    postTweet(tweet.replace(',', ''))
+    post_tweet(tweet.replace(',', ''))
     print("Finished job")
 
 def formatTwitterEnglish(object):
@@ -73,8 +59,8 @@ def formatTwitterSwedish(object):
     #recovered = "🥳 Krya på sig = %s" % (object['recovered'])
     return ('%s \n %s \n' % (confirmedCases, deaths))
 
-def postTweet(tweet):
+def post_tweet(tweet):
     print(tweet)
     make_tweet(tweet)
 
-makeScrap()
+create_tweet()
